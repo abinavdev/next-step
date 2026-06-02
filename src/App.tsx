@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useUserStore } from "@/stores/userStore";
 import { useAuthStore } from "@/stores/authStore";
 import Index from "./pages/Index";
@@ -55,46 +55,44 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route
-            path="/login"
-            element={
-              <PublicRoute>
-                <Login />
-              </PublicRoute>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <PublicRoute>
-                <Register />
-              </PublicRoute>
-            }
-          />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/checkout/:planId" element={<Checkout />} />
-          <Route path="/onboarding" element={<Onboarding />} />
-          <Route
-            element={
-              <ProtectedRoute>
-                <AppLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/roadmap" element={<Roadmap />} />
-            <Route path="/careers" element={<Careers />} />
-            <Route path="/career/:id" element={<CareerDetail />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/project-tools" element={<ProjectTools />} />
-            <Route path="/mentorship" element={<Mentorship />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PublicRoute>
+              <Register />
+            </PublicRoute>
+          }
+        />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/checkout/:planId" element={<Checkout />} />
+        <Route path="/onboarding" element={<Onboarding />} />
+        <Route
+          element={
+            <ProtectedRoute>
+              <AppLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/roadmap" element={<Roadmap />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/career/:id" element={<CareerDetail />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/project-tools" element={<ProjectTools />} />
+          <Route path="/mentorship" element={<Mentorship />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </TooltipProvider>
   </QueryClientProvider>
 );

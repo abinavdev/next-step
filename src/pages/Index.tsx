@@ -35,6 +35,7 @@ export default function Index() {
   const { isAuthenticated, user, logout } = useAuthStore();
 
   useEffect(() => {
+    console.log("Index page - isOnboardingComplete:", isOnboardingComplete, "isAuthenticated:", isAuthenticated);
     if (isOnboardingComplete && isAuthenticated) {
       navigate('/dashboard');
     }

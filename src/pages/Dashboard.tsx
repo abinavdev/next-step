@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import AdBanner from '@/components/ads/AdBanner';
 import {
   Target,
   BookOpen,
@@ -79,6 +80,9 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-8 animate-fade-in">
+      {/* Ads are enabled only for Free plan */}
+      {isFreePlan() && <AdBanner placement="dashboard-top" />}
+
       {/* Subscription Banner */}
       {user?.subscription && (
         <Card
