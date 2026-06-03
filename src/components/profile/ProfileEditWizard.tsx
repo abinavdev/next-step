@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useUserStore } from "@/stores/userStore";
 import { StepEducation } from "@/components/onboarding/StepEducation";
 import { StepSyllabus } from "@/components/onboarding/StepSyllabus";
@@ -16,6 +16,7 @@ interface ProfileEditWizardProps {
 export const ProfileEditWizard = ({ open, initialStep, onClose }: ProfileEditWizardProps) => {
   const { profile, onboarding, updateOnboarding, setProfile } = useUserStore();
   const step: StepIndex = initialStep;
+  const hasInitialized = useRef(false);
 
   // Handle body overflow when modal opens/closes
   useEffect(() => {
@@ -31,8 +32,16 @@ export const ProfileEditWizard = ({ open, initialStep, onClose }: ProfileEditWiz
   }, [open]);
 
   // When opening, seed onboarding data from current profile so UI is prefilled.
+  // Initialize only once per open to avoid repeated updates causing re-renders.
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      // Reset so next open will re-initialize
+      hasInitialized.current = false;
+      return;
+    }
+
+    if (hasInitialized.current) return;
+    hasInitialized.current = true;
 
     if (profile) {
       updateOnboarding({
