@@ -85,8 +85,9 @@ export default function Checkout() {
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
+
       // Set subscription
-      setSubscription({
+      await setSubscription({
         planId: planId,
         planName: plan.name,
         price: plan.price,

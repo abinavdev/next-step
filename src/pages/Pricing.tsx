@@ -57,7 +57,7 @@ export default function Pricing() {
   const navigate = useNavigate();
   const { user, setSubscription } = useAuthStore();
 
-  const handleSubscribe = (planId: PlanType) => {
+  const handleSubscribe = async (planId: PlanType) => {
     if (!user) {
       navigate('/login');
       return;
@@ -65,7 +65,7 @@ export default function Pricing() {
 
     if (planId === 'free') {
       // Set free plan subscription
-      setSubscription({
+      await setSubscription({
         planId: 'free',
         planName: 'Free',
         price: 0,

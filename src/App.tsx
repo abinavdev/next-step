@@ -2,9 +2,11 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useUserStore } from "@/stores/userStore";
 import { useAuthStore } from "@/stores/authStore";
+import ProtectedRoute from '@/components/ProtectedRoute';
+import PublicRoute from '@/components/PublicRoute';
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -23,32 +25,7 @@ import { AppLayout } from "./components/layout/AppLayout";
 
 const queryClient = new QueryClient();
 
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { isOnboardingComplete } = useUserStore();
-  const { isAuthenticated } = useAuthStore();
-  
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
-  // If user has profile but onboarding not marked as complete, allow access to dashboard
-  if (!isOnboardingComplete) {
-    return <Navigate to="/onboarding" replace />;
-  }
-  
-  return <>{children}</>;
-}
-
-function PublicRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, isLoading } = useAuthStore();
-  
-  // If user is authenticated and tries to access login/register, redirect to dashboard
-  if (isAuthenticated && !isLoading) {
-    return <Navigate to="/dashboard" replace />;
-  }
-  
-  return <>{children}</>;
-}
+// ProtectedRoute and PublicRoute pulled from components
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
