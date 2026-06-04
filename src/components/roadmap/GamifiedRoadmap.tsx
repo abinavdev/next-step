@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { CheckCircle2, Circle, Trophy, ArrowRight, Zap, Target, BookOpen, Star } from 'lucide-react';
+import { CheckCircle2, Circle, Trophy, ArrowRight, Zap, Target, BookOpen, Star, ExternalLink } from 'lucide-react';
 
 interface GamifiedRoadmapProps {
   roadmap: Roadmap;
@@ -189,6 +189,34 @@ export function GamifiedRoadmap({ roadmap }: GamifiedRoadmapProps) {
                   </div>
                 </div>
               )}
+
+              {/* Learning Resources */}
+              <div className="space-y-3 pt-2 border-t border-border">
+                <div className="flex items-center gap-1.5 text-xs font-mono font-semibold text-muted-foreground uppercase tracking-wider">
+                  <BookOpen className="w-4 h-4 text-primary" />
+                  <span>Learning Resources</span>
+                </div>
+                {selectedModule.resources && selectedModule.resources.length > 0 ? (
+                  <div className="grid gap-2">
+                    {selectedModule.resources.map((resource, i) => (
+                      <a
+                        key={i}
+                        href={resource.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between p-3 rounded-lg border border-border/50 bg-secondary/10 hover:border-primary/50 hover:bg-secondary/20 transition-all duration-200 text-sm group"
+                      >
+                        <span className="font-medium text-foreground group-hover:text-primary transition-colors">
+                          {resource.title}
+                        </span>
+                        <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0 ml-2" />
+                      </a>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-xs text-muted-foreground italic pl-1">Resources coming soon</p>
+                )}
+              </div>
             </div>
           </DialogContent>
         )}

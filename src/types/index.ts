@@ -13,12 +13,18 @@ export interface UserProfile {
   roadmap?: Roadmap | null;
 }
 
+export interface RoadmapResource {
+  title: string;
+  url: string;
+}
+
 export interface RoadmapModule {
   id: string;
   title: string;
   description: string;
   skills: string[];
   projects: string[];
+  resources: RoadmapResource[];
 }
 
 export interface Roadmap {

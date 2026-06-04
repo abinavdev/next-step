@@ -47,12 +47,25 @@ export function mapRoadmap(rawRoadmap: any): Roadmap {
       projects = [`Complete a practical project on ${rawTitle}.`];
     }
 
+    // Normalize resources to an array of { title, url } objects
+    let resources: { title: string; url: string }[] = [];
+    if (Array.isArray(m?.resources)) {
+      resources = m.resources
+        .map((r: any) => {
+          const t = typeof r?.title === 'string' ? r.title.trim() : '';
+          const u = typeof r?.url === 'string' ? r.url.trim() : '';
+          return { title: t, url: u };
+        })
+        .filter((r) => r.title.length > 0 && r.url.length > 0);
+    }
+
     return {
       id,
       title: rawTitle,
       description: desc,
       skills,
-      projects
+      projects,
+      resources
     };
   });
 
