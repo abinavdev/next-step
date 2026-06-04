@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { UserProfile, OnboardingData, Badge } from '@/types';
+import type { UserProfile, OnboardingData, Badge, Roadmap } from '@/types';
 import { upsertProfile, updateProfileFields } from '@/lib/profile';
 import { useAuthStore } from '@/stores/authStore';
 
@@ -10,7 +10,7 @@ interface UserState {
   isHydrated: boolean;
   setProfile: (profile: UserProfile) => void;
   updateOnboarding: (data: Partial<OnboardingData>) => void;
-  completeOnboarding: () => void;
+  completeOnboarding: (roadmap?: Roadmap) => void;
   setHydrated: (value: boolean) => void;
   addXP: (amount: number) => void;
   completeSkill: (skillId: string) => void;
@@ -51,6 +51,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         xp: profile.xp,
         completed_skills: profile.completedSkills,
         badges: profile.badges,
+        roadmap: profile.roadmap,
       }).catch((err) => {
         console.error('SUPABASE ERROR', err);
       });
@@ -90,7 +91,7 @@ export const useUserStore = create<UserState>((set, get) => ({
       };
     }),
 
-  completeOnboarding: () => {
+  completeOnboarding: (roadmap) => {
     const { onboarding } = get();
     console.log('ONBOARDING DATA', onboarding);
     const authUser = useAuthStore.getState().user;
@@ -106,6 +107,7 @@ export const useUserStore = create<UserState>((set, get) => ({
       xp: 0,
       completedSkills: [],
       badges: [],
+      roadmap: roadmap || null,
     };
     set({
       profile: newProfile,
@@ -126,6 +128,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         xp: newProfile.xp,
         completed_skills: newProfile.completedSkills,
         badges: newProfile.badges,
+        roadmap: newProfile.roadmap,
         onboarding_completed: true,
       })
         .then((result) => {
@@ -145,6 +148,17 @@ export const useUserStore = create<UserState>((set, get) => ({
       const newXP = state.profile.xp + amount;
       const xpPerLevel = 500;
       const newLevel = Math.floor(newXP / xpPerLevel) + 1;
+      
+      const authUser = useAuthStore.getState().user;
+      if (authUser) {
+        updateProfileFields(authUser.id, {
+          xp: newXP,
+          level: newLevel,
+        }).catch((err) => {
+          console.error('Error saving XP to Supabase', err);
+        });
+      }
+      
       return {
         profile: {
           ...state.profile,
@@ -158,10 +172,21 @@ export const useUserStore = create<UserState>((set, get) => ({
     set((state) => {
       if (!state.profile) return state;
       if (state.profile.completedSkills.includes(skillId)) return state;
+      const updatedSkills = [...state.profile.completedSkills, skillId];
+      
+      const authUser = useAuthStore.getState().user;
+      if (authUser) {
+        updateProfileFields(authUser.id, {
+          completed_skills: updatedSkills,
+        }).catch((err) => {
+          console.error('Error saving completed skill to Supabase', err);
+        });
+      }
+      
       return {
         profile: {
           ...state.profile,
-          completedSkills: [...state.profile.completedSkills, skillId],
+          completedSkills: updatedSkills,
         },
       };
     }),
@@ -170,10 +195,21 @@ export const useUserStore = create<UserState>((set, get) => ({
     set((state) => {
       if (!state.profile) return state;
       if (state.profile.badges.find((b) => b.id === badge.id)) return state;
+      const updatedBadges = [...state.profile.badges, { ...badge, earnedAt: new Date() }];
+      
+      const authUser = useAuthStore.getState().user;
+      if (authUser) {
+        updateProfileFields(authUser.id, {
+          badges: updatedBadges,
+        }).catch((err) => {
+          console.error('Error saving earned badge to Supabase', err);
+        });
+      }
+      
       return {
         profile: {
           ...state.profile,
-          badges: [...state.profile.badges, { ...badge, earnedAt: new Date() }],
+          badges: updatedBadges,
         },
       };
     }),

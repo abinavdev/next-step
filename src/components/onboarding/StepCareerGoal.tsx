@@ -23,9 +23,10 @@ const suggestedCareers = [
 interface StepCareerGoalProps {
   onComplete: () => void;
   onBack: () => void;
+  isGenerating?: boolean;
 }
 
-export function StepCareerGoal({ onComplete, onBack }: StepCareerGoalProps) {
+export function StepCareerGoal({ onComplete, onBack, isGenerating = false }: StepCareerGoalProps) {
   const { onboarding, updateOnboarding } = useUserStore();
   const [customGoal, setCustomGoal] = useState('');
 
@@ -151,11 +152,20 @@ export function StepCareerGoal({ onComplete, onBack }: StepCareerGoalProps) {
           <Button
             variant="hero"
             onClick={onComplete}
-            disabled={!isValid}
+            disabled={!isValid || isGenerating}
             className="flex-1"
           >
-            <Sparkles className="mr-2 h-5 w-5" />
-            Get My Roadmap
+            {isGenerating ? (
+              <>
+                <span className="animate-spin mr-2 h-4 w-4">⏳</span>
+                Generating...
+              </>
+            ) : (
+              <>
+                <Sparkles className="mr-2 h-5 w-5" />
+                Get My Roadmap
+              </>
+            )}
           </Button>
         </div>
       </div>

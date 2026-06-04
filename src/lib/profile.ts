@@ -16,11 +16,12 @@ export interface ProfileRow {
   xp?: number | null;
   completed_skills?: string[] | null;
   badges?: any[] | null;
+  roadmap?: any | null;
   created_at?: string | null;
   updated_at?: string | null;
 }
 
-const PROFILE_SELECT = `id, email, full_name, subscription_plan, onboarding_completed, career_goal, degree, interests, syllabus_topics, level, xp, completed_skills, badges, created_at, updated_at`;
+const PROFILE_SELECT = `id, email, full_name, subscription_plan, onboarding_completed, career_goal, degree, interests, syllabus_topics, level, xp, completed_skills, badges, roadmap, created_at, updated_at`;
 
 export async function getProfile(id: string) {
   const { data, error } = await supabase

@@ -622,11 +622,11 @@ export function ProjectChart() {
     );
   };
 
-  const projectProgress = Math.round(
-    (milestones.reduce((acc, m) => acc + m.completedTasks, 0) /
-      milestones.reduce((acc, m) => acc + m.tasks.length, 0)) *
-      100
-  );
+  const totalTasks = milestones.reduce((acc, m) => acc + m.tasks.length, 0);
+  const completedTasksCount = milestones.reduce((acc, m) => acc + m.completedTasks, 0);
+  const projectProgress = totalTasks > 0
+    ? Math.round((completedTasksCount / totalTasks) * 100)
+    : 0;
 
   return (
     <div className="space-y-8">

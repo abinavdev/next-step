@@ -10,7 +10,26 @@ export interface UserProfile {
   xp: number;
   completedSkills: string[];
   badges: Badge[];
+  roadmap?: Roadmap | null;
 }
+
+export interface RoadmapModule {
+  id: string;
+  title: string;
+  description: string;
+  skills: string[];
+  projects: string[];
+}
+
+export interface Roadmap {
+  title: string;
+  description: string;
+  modules: RoadmapModule[];
+  meta?: {
+    source?: string;
+  };
+}
+
 
 export interface Badge {
   id: string;
