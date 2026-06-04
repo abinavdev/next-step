@@ -32,7 +32,6 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { CareerPath } from '@/types';
-import { model } from '@/lib/gemini';
 
 const mockCareerPaths: CareerPath[] = [
   {
@@ -174,26 +173,6 @@ export default function Dashboard() {
               ? `Your journey to becoming a ${profile.careerGoal} continues`
               : 'Discover your perfect career path'}
           </p>
-          <div className="mt-4 flex gap-2">
-            <Button
-              onClick={async () => {
-                try {
-                  console.log("Testing Gemini API call...");
-                  const result = await model.generateContent(
-                    "Give me 3 skills required for a Business Analyst"
-                  );
-                  console.log("GEMINI RESPONSE:");
-                  console.log(result.response.text());
-                } catch (error) {
-                  console.error("GEMINI TEST ERROR:", error);
-                }
-              }}
-              variant="outline"
-              className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
-            >
-              Test Gemini
-            </Button>
-          </div>
         </div>
         <LevelBadge level={profile?.level || 1} xp={profile?.xp || 150} />
       </div>
