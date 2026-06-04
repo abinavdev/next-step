@@ -163,7 +163,7 @@ export default function Dashboard() {
       )}
 
       {/* Header */}
-      <div className="flex items-start justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-foreground">
             Welcome back{user?.name ? `, ${user.name}` : ''}! 
@@ -215,20 +215,20 @@ export default function Dashboard() {
 
       {/* Tabbed Content */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="projects" disabled={!hasFeature('project-chart')}>
+        <TabsList className="flex w-full overflow-x-auto no-scrollbar md:grid md:grid-cols-5 h-auto p-1 bg-muted text-muted-foreground rounded-lg justify-start md:justify-center">
+          <TabsTrigger value="overview" className="shrink-0 md:shrink">Overview</TabsTrigger>
+          <TabsTrigger value="projects" disabled={!hasFeature('project-chart')} className="shrink-0 md:shrink">
             <Briefcase className="mr-2 h-4 w-4" />
             Projects
             {!hasFeature('project-chart') && <Lock className="ml-1 h-3 w-3" />}
           </TabsTrigger>
-          <TabsTrigger value="resources">Resources</TabsTrigger>
-          <TabsTrigger value="mentorship" disabled={!hasFeature('mentorship')}>
+          <TabsTrigger value="resources" className="shrink-0 md:shrink">Resources</TabsTrigger>
+          <TabsTrigger value="mentorship" disabled={!hasFeature('mentorship')} className="shrink-0 md:shrink">
             <Users className="mr-2 h-4 w-4" />
             Mentorship
             {!hasFeature('mentorship') && <Lock className="ml-1 h-3 w-3" />}
           </TabsTrigger>
-          <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="account" className="shrink-0 md:shrink">Account</TabsTrigger>
         </TabsList>
 
         {/* Overview Tab */}
@@ -287,8 +287,8 @@ export default function Dashboard() {
               </div>
 
               <div className="mt-6 rounded-xl bg-gradient-hero p-6">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl gradient-primary shadow-glow">
+                <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl gradient-primary shadow-glow shrink-0">
                     <Rocket className="h-7 w-7 text-primary-foreground" />
                   </div>
                   <div className="flex-1">
@@ -311,7 +311,7 @@ export default function Dashboard() {
                   </div>
                   <Button
                     variant="hero"
-                    className="shrink-0"
+                    className="w-full sm:w-auto shrink-0 mt-2 sm:mt-0"
                     onClick={() => navigate('/roadmap')}
                   >
                     <Sparkles className="mr-2 h-4 w-4" />
@@ -321,7 +321,7 @@ export default function Dashboard() {
               </div>
 
               {/* Quick Actions */}
-              <div className="mt-6 grid grid-cols-2 gap-4">
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <button className="flex items-center gap-3 rounded-xl border border-border bg-background p-4 text-left transition-all hover:border-primary/30 hover:shadow-soft">
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
                     <BookOpen className="h-5 w-5 text-primary" />

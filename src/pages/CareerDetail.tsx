@@ -72,13 +72,13 @@ export default function CareerDetail() {
       </div>
 
       {/* Header */}
-      <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-center gap-4">
+      <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between border-b border-border pb-6">
+        <div className="flex items-start sm:items-center gap-4">
           {/* Icon - No Container */}
           {IconComponent ? (
-            <IconComponent className="h-8 w-8 text-primary flex-shrink-0" />
+            <IconComponent className="h-8 w-8 text-primary flex-shrink-0 mt-1 sm:mt-0" />
           ) : (
-            <span className="text-3xl flex-shrink-0">{career.icon}</span>
+            <span className="text-3xl flex-shrink-0 mt-1 sm:mt-0">{career.icon}</span>
           )}
           <div>
             <h1 className="text-3xl font-bold text-foreground">{career.title}</h1>
@@ -87,12 +87,12 @@ export default function CareerDetail() {
             </p>
           </div>
         </div>
-        <div className="space-y-1 text-right text-sm text-muted-foreground">
+        <div className="space-y-1 text-left md:text-right text-sm text-muted-foreground">
           <p>
             <span className="font-semibold text-foreground">Average salary:</span>{" "}
             {career.averageSalary}
           </p>
-          <p className="flex items-center justify-end gap-1">
+          <p className="flex items-center md:justify-end gap-1">
             <TrendingUp className="h-4 w-4 text-accent" />
             <span className="font-semibold text-foreground">Growth:</span>{" "}
             {career.growthRate}
@@ -167,9 +167,9 @@ export default function CareerDetail() {
       </section>
 
       {/* CTA */}
-      <section className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-accent/40 bg-accent/5 p-5">
-        <div className="flex items-center gap-3">
-          <Target className="h-5 w-5 text-accent" />
+      <section className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-accent/40 bg-accent/5 p-5">
+        <div className="flex items-start sm:items-center gap-3">
+          <Target className="h-5 w-5 text-accent shrink-0 mt-1 sm:mt-0" />
           <div>
             <p className="text-sm font-semibold text-foreground">
               Track this career as your goal
@@ -179,7 +179,7 @@ export default function CareerDetail() {
             </p>
           </div>
         </div>
-        <Button variant="hero" onClick={handleTrackCareer}>
+        <Button variant="hero" onClick={handleTrackCareer} className="w-full sm:w-auto shrink-0">
           Add to My Goal
         </Button>
       </section>

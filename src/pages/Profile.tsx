@@ -51,14 +51,14 @@ export default function Profile() {
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Header */}
-      <div className="flex items-start justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Your Profile</h1>
           <p className="mt-1 text-muted-foreground">
             Manage your account and view your progress
           </p>
         </div>
-        <Button variant="outline" onClick={handleLogout}>
+        <Button variant="outline" onClick={handleLogout} className="w-full sm:w-auto shrink-0">
           <LogOut className="mr-2 h-4 w-4" />
           Log Out
         </Button>

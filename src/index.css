@@ -394,4 +394,12 @@
   .modal-scrollable::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--muted));
   }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }

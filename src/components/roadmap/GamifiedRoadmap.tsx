@@ -83,7 +83,7 @@ export function GamifiedRoadmap({ roadmap }: GamifiedRoadmapProps) {
   return (
     <div className="relative flex flex-col items-center py-12 px-4 space-y-16 max-w-4xl mx-auto">
       {/* SVG Connecting Lines for Roadmap Path */}
-      <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-1.5 pointer-events-none hidden md:block z-0">
+      <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-1.5 pointer-events-none block z-0">
         <div className="w-full h-full bg-gradient-to-b from-primary/30 via-accent/30 to-muted/20 rounded-full" />
       </div>
 
@@ -110,7 +110,7 @@ export function GamifiedRoadmap({ roadmap }: GamifiedRoadmapProps) {
       {/* Module Detail Dialog */}
       <Dialog open={!!selectedModule} onOpenChange={(open) => !open && setSelectedModule(null)}>
         {selectedModule && (
-          <DialogContent className="max-w-xl bg-card border-border shadow-large p-6">
+          <DialogContent className="w-full h-full md:h-auto max-w-none md:max-w-xl rounded-none md:rounded-2xl border-x-0 md:border border-border bg-card p-6 overflow-y-auto max-h-screen md:max-h-[90vh] flex flex-col">
             <DialogHeader className="gap-2">
               <span className="text-xs font-mono font-bold tracking-widest text-primary uppercase">
                 Module Details

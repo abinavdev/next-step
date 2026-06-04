@@ -50,7 +50,7 @@ export default function Index() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto flex items-center justify-between px-6 py-4">
+        <div className="container mx-auto flex items-center justify-between px-4 sm:px-6 py-4">
           <div className="flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl gradient-primary shadow-glow">
               <Sparkles className="h-5 w-5 text-primary-foreground" />
@@ -62,7 +62,7 @@ export default function Index() {
           <div className="flex items-center gap-3">
             {isAuthenticated && user ? (
               <>
-                <span className="text-sm text-muted-foreground">Welcome, {user.name}</span>
+                <span className="text-sm text-muted-foreground hidden sm:inline">Welcome, {user.name}</span>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -94,7 +94,7 @@ export default function Index() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-hero opacity-50" />
-        <div className="container relative mx-auto px-6 py-24 text-center">
+        <div className="container relative mx-auto px-4 sm:px-6 py-16 md:py-24 text-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary mb-6">
             <Sparkles className="h-4 w-4" />
             AI-Powered Career Guidance
@@ -145,7 +145,7 @@ export default function Index() {
       </section>
 
       {/* Features */}
-      <section className="container mx-auto px-6 py-24">
+      <section className="container mx-auto px-4 sm:px-6 py-16 md:py-24">
         <div className="text-center">
           <h2 className="text-3xl font-bold text-foreground">
             How NextStep AI Works

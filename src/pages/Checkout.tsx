@@ -107,7 +107,7 @@ export default function Checkout() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/30">
-      <div className="container mx-auto max-w-4xl px-6 py-12">
+      <div className="container mx-auto max-w-4xl px-4 sm:px-6 py-8 md:py-12">
         {/* Header */}
         <div className="mb-8">
           <Button
