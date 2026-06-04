@@ -195,66 +195,124 @@ export function GamifiedRoadmap({ roadmap }: GamifiedRoadmapProps) {
   };
 
   return (
-    <div className="w-full flex flex-col space-y-8 bg-[#0a0a0a] min-h-screen text-slate-100">
+    <div className="w-full flex flex-col space-y-6 lg:space-y-8 bg-[#0a0a0a] min-h-screen text-slate-100 overflow-x-hidden pb-[100px]">
       
-      {/* 3-Column Stats Header matching Dashboard styling */}
-      <div className="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto w-full px-4">
-        {/* Card 1: Career Readiness */}
-        <div className="rounded-2xl border border-zinc-800 bg-card p-6 shadow-sm hover:shadow-glow transition-all duration-200">
-          <div className="flex items-start justify-between">
-            <div>
-              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Career Readiness</p>
-              <p className="mt-2 text-3xl font-bold text-slate-100">{completionPercentage}%</p>
-              <p className="mt-1 text-xs text-zinc-500">Path completed</p>
+      {!isMobile ? (
+        /* 3-Column Stats Header matching Dashboard styling (Desktop only) */
+        <div className="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto w-full px-4">
+          {/* Card 1: Career Readiness */}
+          <div className="rounded-2xl border border-zinc-800 bg-card p-6 shadow-sm hover:shadow-glow transition-all duration-200">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Career Readiness</p>
+                <p className="mt-2 text-3xl font-bold text-slate-100">{completionPercentage}%</p>
+                <p className="mt-1 text-xs text-zinc-500">Path completed</p>
+              </div>
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-500/10 text-red-500 border border-red-500/20 shadow-glow">
+                <Target className="h-6 w-6" />
+              </div>
             </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-500/10 text-red-500 border border-red-500/20 shadow-glow">
-              <Target className="h-6 w-6" />
+            <div className="mt-4 h-1.5 w-full rounded-full bg-zinc-900 border border-zinc-800 overflow-hidden">
+              <div className="h-full rounded-full bg-red-500" style={{ width: `${completionPercentage}%` }} />
             </div>
           </div>
-          <div className="mt-4 h-1.5 w-full rounded-full bg-zinc-900 border border-zinc-800 overflow-hidden">
-            <div className="h-full rounded-full bg-red-500" style={{ width: `${completionPercentage}%` }} />
-          </div>
-        </div>
 
-        {/* Card 2: Skills Mastered */}
-        <div className="rounded-2xl border border-zinc-800 bg-card p-6 shadow-sm hover:shadow-glow transition-all duration-200">
-          <div className="flex items-start justify-between">
-            <div>
-              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Skills Completed</p>
-              <p className="mt-2 text-3xl font-bold text-slate-100">{completedSkillsTotal}/{totalSkills}</p>
-              <p className="mt-1 text-xs text-zinc-500">{totalSkills - completedSkillsTotal} remaining</p>
-            </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-500/10 text-red-500 border border-red-500/20">
-              <BookOpen className="h-6 w-6" />
+          {/* Card 2: Skills Mastered */}
+          <div className="rounded-2xl border border-zinc-800 bg-card p-6 shadow-sm hover:shadow-glow transition-all duration-200">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Skills Completed</p>
+                <p className="mt-2 text-3xl font-bold text-slate-100">{completedSkillsTotal}/{totalSkills}</p>
+                <p className="mt-1 text-xs text-zinc-500">{totalSkills - completedSkillsTotal} remaining</p>
+              </div>
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-500/10 text-red-500 border border-red-500/20">
+                <BookOpen className="h-6 w-6" />
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Card 3: Current Streak */}
-        <div className="rounded-2xl border border-zinc-800 bg-card p-6 shadow-sm hover:shadow-glow transition-all duration-200">
-          <div className="flex items-start justify-between">
-            <div>
-              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Current Streak</p>
-              <p className="mt-2 text-3xl font-bold text-slate-100">7 days</p>
-              <p className="mt-1 text-xs text-zinc-500">Best streak: 14 days</p>
-            </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-500/10 text-red-500 border border-red-500/20">
-              <Flame className="h-6 w-6" />
+          {/* Card 3: Current Streak */}
+          <div className="rounded-2xl border border-zinc-800 bg-card p-6 shadow-sm hover:shadow-glow transition-all duration-200">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Current Streak</p>
+                <p className="mt-2 text-3xl font-bold text-slate-100">7 days</p>
+                <p className="mt-1 text-xs text-zinc-500">Best streak: 14 days</p>
+              </div>
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-500/10 text-red-500 border border-red-500/20">
+                <Flame className="h-6 w-6" />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        /* Mobile Roadmap Header and Achievements Row */
+        <div className="px-4 space-y-3">
+          <div className="rounded-2xl border border-zinc-800 bg-card p-4 shadow-sm">
+            <h2 className="text-base font-bold text-slate-100">
+              {profile.careerGoal || 'Software Engineer'} Roadmap
+            </h2>
+            <div className="mt-3 flex items-center justify-between text-xs text-zinc-400">
+              <span className="flex items-center gap-1">
+                <Target className="w-3.5 h-3.5 text-red-500" />
+                Progress
+              </span>
+              <span className="font-mono font-semibold text-slate-200">
+                {completionPercentage}% ({roadmap.modules.filter((m) => isModuleCompleted(m)).length} / {roadmap.modules.length} Modules)
+              </span>
+            </div>
+            <div className="mt-2 h-1.5 w-full rounded-full bg-zinc-950 overflow-hidden border border-zinc-800/40">
+              <div 
+                className="h-full rounded-full bg-red-500" 
+                style={{ width: `${completionPercentage}%` }}
+              />
+            </div>
+          </div>
+
+          {/* Achievements Icon Badges Section */}
+          <div className="space-y-1.5">
+            <h4 className="text-[10px] font-mono font-bold text-zinc-550 text-zinc-500 uppercase tracking-widest">
+              Achievements
+            </h4>
+            <div className="flex gap-3 overflow-x-auto no-scrollbar py-1">
+              {roadmap.modules.map((_, i) => {
+                if (i === 0) return null; // No badge before Module 1
+                const unlocked = getModuleStatus(i - 1) === 'completed';
+                const badge = getBadgeDetails(i);
+                return (
+                  <div 
+                    key={`scroll-badge-${i}`}
+                    className={cn(
+                      "flex items-center justify-center w-9 h-9 rounded-full border shrink-0 transition-all duration-200",
+                      unlocked 
+                        ? 'bg-red-500/10 border-red-500/30 text-red-500 shadow-glow' 
+                        : 'bg-zinc-950/20 border-zinc-900/50 text-zinc-600 grayscale'
+                    )}
+                    title={badge?.name}
+                  >
+                    {i === 1 && <Target className="w-4.5 h-4.5" />}
+                    {i === 2 && <Star className="w-4.5 h-4.5" />}
+                    {i === 3 && <Zap className="w-4.5 h-4.5" />}
+                    {i === 4 && <Trophy className="w-4.5 h-4.5" />}
+                    {i === 5 && <BookOpen className="w-4.5 h-4.5" />}
+                    {i >= 6 && <Award className="w-4.5 h-4.5" />}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Roadmap Wrapper */}
       {isMobile ? (
-        /* Mobile Viewport: Linear timeline flowing top-to-bottom */
-        <div className="relative w-full max-w-lg mx-auto pl-12 pr-4 py-6 flex flex-col gap-10">
-          {/* Vertical road lines in the background */}
-          <div className="absolute left-[30px] top-0 bottom-0 w-3 bg-zinc-900 border-x border-zinc-800 pointer-events-none" />
-          <div className="absolute left-[35px] top-0 bottom-0 w-[2px] bg-zinc-700/40 border-dashed border-spacing-2 pointer-events-none" />
+        /* Mobile Viewport: Linear timeline centered 90px from left edge */
+        <div className="relative w-full flex flex-col gap-6 py-2 overflow-x-hidden">
+          {/* Vertical road line centered 90px from screen edge (74px in container since parent padding is 16px) */}
+          <div className="absolute left-[74px] -translate-x-1/2 top-4 bottom-12 w-[4px] bg-zinc-800 pointer-events-none" />
           
           {/* Animated active path line on mobile */}
-          <div className="absolute left-[34px] top-0 bottom-0 w-[4px] pointer-events-none origin-top">
+          <div className="absolute left-[74px] -translate-x-1/2 top-4 bottom-12 w-[4px] pointer-events-none origin-top">
             <motion.div 
               className="w-full bg-red-500 rounded-full"
               initial={{ height: 0 }}
@@ -265,12 +323,14 @@ export function GamifiedRoadmap({ roadmap }: GamifiedRoadmapProps) {
           </div>
 
           {/* Start Badge (Mobile at the top) */}
-          <div className="relative z-10 flex items-center">
-            <div className="absolute -left-[14px] w-6 h-6 rounded-full bg-emerald-500 border-4 border-[#0a0a0a] flex items-center justify-center text-[8px] font-bold text-[#0a0a0a] shadow-glow-emerald">
+          <div className="relative z-10 flex items-center min-h-[40px]">
+            <div className="absolute left-[74px] -translate-x-1/2 w-8 h-8 rounded-full bg-emerald-500 border-4 border-[#0a0a0a] flex items-center justify-center text-[10px] font-bold text-[#0a0a0a] shadow-glow-emerald">
               ✓
             </div>
-            <div className="bg-card border border-emerald-500/20 px-3 py-1.5 rounded-lg text-xs font-bold text-emerald-500 uppercase tracking-widest">
-              Start Here 🏁
+            <div className="ml-[108px] w-[calc(100vw-140px)] max-w-[280px] shrink-0">
+              <div className="inline-block bg-card border border-emerald-500/20 px-2.5 py-1 rounded-lg text-[10px] font-bold text-emerald-500 uppercase tracking-widest font-mono">
+                Start Here 🏁
+              </div>
             </div>
           </div>
 
@@ -283,11 +343,11 @@ export function GamifiedRoadmap({ roadmap }: GamifiedRoadmapProps) {
             const isCompleted = status === 'completed';
 
             return (
-              <div key={module.id} className="relative z-10 w-full flex items-start gap-4">
+              <div key={module.id} className="relative z-10 w-full flex items-center min-h-[110px]">
                 {/* Node dot on the line */}
                 <div 
                   onClick={() => !isLocked && setSelectedModule(module)}
-                  className={`absolute -left-[18px] w-8 h-8 rounded-full border-4 border-[#0a0a0a] flex items-center justify-center shrink-0 cursor-pointer transition-all duration-300 ${
+                  className={`absolute left-[74px] -translate-x-1/2 w-8 h-8 rounded-full border-4 border-[#0a0a0a] flex items-center justify-center shrink-0 cursor-pointer transition-all duration-300 ${
                     isLocked 
                       ? 'bg-zinc-800 border-[#0a0a0a] text-zinc-500' 
                       : isCompleted 
@@ -305,7 +365,7 @@ export function GamifiedRoadmap({ roadmap }: GamifiedRoadmapProps) {
                 </div>
 
                 {/* Module detail card */}
-                <div className="w-full">
+                <div className="ml-[108px] w-[calc(100vw-140px)] max-w-[280px] shrink-0">
                   <ModuleNode
                     moduleNumber={index + 1}
                     title={module.title}
@@ -314,6 +374,7 @@ export function GamifiedRoadmap({ roadmap }: GamifiedRoadmapProps) {
                     totalSkillsCount={totalSkillsCount}
                     status={status}
                     onClick={() => setSelectedModule(module)}
+                    isCompact={true}
                   />
                 </div>
               </div>
@@ -321,22 +382,27 @@ export function GamifiedRoadmap({ roadmap }: GamifiedRoadmapProps) {
           })}
 
           {/* Finish Destination Card (Mobile at the bottom) */}
-          <div className="relative z-10 w-full">
-            <div className="absolute -left-[14px] w-6 h-6 rounded-full bg-zinc-900 border-4 border-zinc-800 flex items-center justify-center text-xs text-zinc-500">
-              🚀
+          <div className="relative z-10 w-full flex items-center min-h-[110px]">
+            <div className="absolute left-[74px] -translate-x-1/2 w-8 h-8 rounded-full bg-zinc-900 border-4 border-zinc-800 flex items-center justify-center text-xs text-zinc-500">
+              🏆
             </div>
-            <div className={cn(
-              "w-full rounded-xl border p-4 bg-card",
-              completionPercentage === 100 
-                ? "border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.2)]" 
-                : "border-zinc-800 opacity-60"
-            )}>
-              <h3 className="text-sm font-bold text-slate-200 flex items-center gap-1.5">
-                Career Ready 🚀
-              </h3>
-              <p className="text-xs text-zinc-400 mt-1 leading-relaxed">
-                Complete all modules to unlock the job board matching engine, portfolio builders, and fast-track mentorship.
-              </p>
+            <div className="ml-[108px] w-[calc(100vw-140px)] max-w-[280px] shrink-0">
+              <div className={cn(
+                "w-full rounded-xl border p-4 bg-card h-[110px] flex flex-col justify-center",
+                completionPercentage === 100 
+                  ? "border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.2)]" 
+                  : "border-zinc-800 opacity-60"
+              )}>
+                <span className="text-[8px] font-mono font-bold tracking-widest text-red-500 bg-red-950/20 border border-red-500/20 px-2 py-0.5 rounded-full uppercase w-max">
+                  Goal
+                </span>
+                <h3 className="text-xs font-bold text-slate-200 mt-1 flex items-center gap-1.5">
+                  Career Ready 🏆
+                </h3>
+                <p className="text-[10px] text-zinc-400 mt-1 leading-normal line-clamp-2">
+                  Complete all modules to unlock the job board matching engine, portfolio builders, and fast-track mentorship.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -361,7 +427,7 @@ export function GamifiedRoadmap({ roadmap }: GamifiedRoadmapProps) {
                 <stop offset="100%" stopColor="#7f1d1d" />
               </linearGradient>
               <filter id="roadRedGlow" x="-10%" y="-10%" width="120%" height="120%">
-                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feGaussianBlur stdDeviation="2.4" result="blur" />
                 <feMerge>
                   <feMergeNode in="blur" />
                   <feMergeNode in="SourceGraphic" />
@@ -421,7 +487,7 @@ export function GamifiedRoadmap({ roadmap }: GamifiedRoadmapProps) {
             <motion.path
               d={roadPathD}
               stroke="url(#roadRedGradient)"
-              strokeWidth={5}
+              strokeWidth={4}
               fill="none"
               strokeLinecap="round"
               filter="url(#roadRedGlow)"

@@ -25,24 +25,24 @@ export function StatCard({
   return (
     <div
       className={cn(
-        'rounded-2xl border border-border bg-card p-6 transition-all duration-200 hover:shadow-medium',
-        variant === 'primary' && 'border-primary/20 bg-primary/5',
-        variant === 'accent' && 'border-accent/20 bg-accent/5',
+        'rounded-2xl border border-border bg-card p-3 lg:p-6 h-[100px] lg:h-auto flex flex-col justify-center transition-all duration-200 hover:shadow-medium overflow-hidden',
+        variant === 'primary' && 'border-red-500/20 bg-red-500/5',
+        variant === 'accent' && 'border-red-500/20 bg-red-500/5',
         className
       )}
     >
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-sm font-medium text-muted-foreground">{title}</p>
-          <p className="mt-2 text-3xl font-bold text-foreground">{value}</p>
+      <div className="flex items-center justify-between w-full">
+        <div className="flex-1 min-w-0 pr-1">
+          <p className="text-[9px] lg:text-xs font-semibold text-zinc-500 truncate uppercase tracking-wider">{title}</p>
+          <p className="mt-0.5 lg:mt-2 text-base lg:text-3xl font-bold text-foreground truncate">{value}</p>
           {subtitle && (
-            <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>
+            <p className="hidden lg:block mt-1 text-xs text-muted-foreground truncate">{subtitle}</p>
           )}
           {trend && trendValue && (
             <div
               className={cn(
-                'mt-2 inline-flex items-center gap-1 text-xs font-medium',
-                trend === 'up' && 'text-accent',
+                'hidden lg:inline-flex mt-2 items-center gap-1 text-xs font-medium',
+                trend === 'up' && 'text-red-500',
                 trend === 'down' && 'text-destructive',
                 trend === 'neutral' && 'text-muted-foreground'
               )}
@@ -53,19 +53,18 @@ export function StatCard({
             </div>
           )}
         </div>
+        
         <div
           className={cn(
-            'flex h-12 w-12 items-center justify-center rounded-xl',
-            variant === 'default' && 'bg-secondary',
-            variant === 'primary' && 'gradient-primary shadow-glow',
-            variant === 'accent' && 'gradient-accent shadow-accent-glow'
+            'flex h-8 w-8 lg:h-12 lg:w-12 items-center justify-center rounded-lg lg:rounded-xl shrink-0 transition-all border',
+            variant === 'default' && 'bg-secondary border-zinc-800',
+            (variant === 'primary' || variant === 'accent') && 'bg-red-500/10 text-red-500 border-red-500/20 shadow-glow'
           )}
         >
           <Icon
             className={cn(
-              'h-6 w-6',
-              variant === 'default' && 'text-foreground',
-              (variant === 'primary' || variant === 'accent') && 'text-primary-foreground'
+              'h-4 w-4 lg:h-6 lg:w-6 text-slate-350',
+              (variant === 'primary' || variant === 'accent') && 'text-red-500'
             )}
           />
         </div>

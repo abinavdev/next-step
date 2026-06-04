@@ -79,7 +79,7 @@ export default function Dashboard() {
   const totalSkills = 15;
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-3 lg:space-y-8 animate-fade-in overflow-x-hidden w-full max-w-[100vw] pb-[100px]">
       {/* Ads are enabled only for Free plan */}
       {isFreePlan() && <AdBanner placement="dashboard-top" />}
 
@@ -92,12 +92,12 @@ export default function Dashboard() {
               : 'gradient-primary'
           }`}
         >
-          <CardContent className="pt-6">
+          <CardContent className="pt-4 lg:pt-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 {user.subscription.planId !== 'free' && (
                   <Crown
-                    className={`h-6 w-6 ${
+                    className={`h-5 w-5 lg:h-6 lg:w-6 ${
                       user.subscription.planId === 'free'
                         ? 'text-muted-foreground'
                         : 'text-primary-foreground'
@@ -106,7 +106,7 @@ export default function Dashboard() {
                 )}
                 <div>
                   <p
-                    className={`font-semibold ${
+                    className={`font-semibold text-sm lg:text-base ${
                       user.subscription.planId === 'free'
                         ? 'text-foreground'
                         : 'text-primary-foreground'
@@ -117,7 +117,7 @@ export default function Dashboard() {
                       : ` ${user.subscription.planName} Plan`}
                   </p>
                   <p
-                    className={`text-sm ${
+                    className={`text-xs lg:text-sm ${
                       user.subscription.planId === 'free'
                         ? 'text-muted-foreground'
                         : 'text-primary-foreground/80'
@@ -134,7 +134,7 @@ export default function Dashboard() {
               {user.subscription.planId === 'free' && (
                 <Button
                   onClick={() => navigate('/pricing')}
-                  className="gradient-primary text-primary-foreground shadow-glow hover:shadow-glow-md"
+                  className="gradient-primary text-primary-foreground shadow-glow hover:shadow-glow-md text-xs lg:text-sm h-8 lg:h-10 px-3 lg:px-4"
                 >
                   Upgrade Now
                 </Button>
@@ -142,7 +142,7 @@ export default function Dashboard() {
               {user.subscription.planId === 'project-assistance' && (
                 <Button
                   onClick={() => navigate('/pricing')}
-                  className="gradient-primary text-primary-foreground shadow-glow hover:shadow-glow-md"
+                  className="gradient-primary text-primary-foreground shadow-glow hover:shadow-glow-md text-xs lg:text-sm h-8 lg:h-10 px-3 lg:px-4"
                 >
                   Upgrade to Mentor
                 </Button>
@@ -151,9 +151,9 @@ export default function Dashboard() {
                 <Button
                   onClick={() => setMentorModalOpen(true)}
                   variant="ghost"
-                  className="text-primary-foreground hover:bg-primary-foreground/10 cursor-pointer"
+                  className="text-primary-foreground hover:bg-primary-foreground/10 cursor-pointer text-xs lg:text-sm h-8 lg:h-10 px-3 lg:px-4"
                 >
-                  <MessageCircle className="mr-2 h-4 w-4" />
+                  <MessageCircle className="mr-1.5 h-3.5 w-3.5 lg:mr-2 lg:h-4 lg:w-4" />
                   Contact Mentor
                 </Button>
               )}
@@ -163,7 +163,39 @@ export default function Dashboard() {
       )}
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+      {/* Mobile Header (hidden on desktop) */}
+      <div className="block lg:hidden">
+        <div className="flex flex-col gap-1.5 py-2.5 px-3 bg-card rounded-2xl border border-zinc-800 shadow-sm">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-lg font-bold text-slate-100">
+                Hi{user?.name ? `, ${user.name.split(' ')[0]}` : '!' } 👋
+              </h1>
+              <p className="text-[9px] text-zinc-500 mt-0.5">
+                {profile?.careerGoal || 'Software Engineer'}
+              </p>
+            </div>
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-500/10 text-red-500 border border-red-500/20 font-bold text-[10px] shrink-0 shadow-glow">
+              Lvl {profile?.level || 1}
+            </div>
+          </div>
+          <div className="space-y-0.5">
+            <div className="flex items-center justify-between text-[8px] font-mono text-zinc-500">
+              <span>XP Progress</span>
+              <span>{(profile?.xp || 150) % 500} / 500 XP</span>
+            </div>
+            <div className="h-1 w-full rounded-full bg-zinc-950 overflow-hidden border border-zinc-800/40">
+              <div 
+                className="h-full rounded-full bg-red-500" 
+                style={{ width: `${((profile?.xp || 150) % 500) / 500 * 100}%` }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop Header (hidden on mobile) */}
+      <div className="hidden lg:flex flex-col sm:flex-row sm:items-start justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-foreground">
             Welcome back{user?.name ? `, ${user.name}` : ''}! 
@@ -178,7 +210,7 @@ export default function Dashboard() {
       </div>
 
       {/* Main Stats Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-2.5 lg:grid-cols-4 lg:gap-6">
         <StatCard
           title="Career Readiness"
           value={`${careerReadiness}%`}
@@ -215,37 +247,73 @@ export default function Dashboard() {
 
       {/* Tabbed Content */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="flex w-full overflow-x-auto no-scrollbar md:grid md:grid-cols-5 h-auto p-1 bg-muted text-muted-foreground rounded-lg justify-start md:justify-center">
-          <TabsTrigger value="overview" className="shrink-0 md:shrink">Overview</TabsTrigger>
-          <TabsTrigger value="projects" disabled={!hasFeature('project-chart')} className="shrink-0 md:shrink">
-            <Briefcase className="mr-2 h-4 w-4" />
+        <TabsList className="flex w-full overflow-x-auto no-scrollbar h-auto justify-start flex-nowrap bg-transparent p-0 gap-2 mb-4 lg:grid lg:grid-cols-5 lg:bg-muted lg:p-1 lg:rounded-lg lg:gap-0 lg:mb-0">
+          <TabsTrigger 
+            value="overview" 
+            className="shrink-0 lg:shrink rounded-full border border-zinc-800 bg-zinc-950/30 px-4 py-1.5 text-xs text-zinc-400 data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=active]:border-red-500 lg:rounded-md lg:border-0 lg:bg-transparent lg:px-3 lg:py-1.5 lg:text-sm lg:text-muted-foreground lg:data-[state=active]:bg-background lg:data-[state=active]:text-foreground lg:data-[state=active]:shadow-sm whitespace-nowrap transition-all duration-200 shadow-none"
+          >
+            Overview
+          </TabsTrigger>
+          <TabsTrigger 
+            value="projects" 
+            disabled={!hasFeature('project-chart')} 
+            className="shrink-0 lg:shrink rounded-full border border-zinc-800 bg-zinc-950/30 px-4 py-1.5 text-xs text-zinc-400 data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=active]:border-red-500 lg:rounded-md lg:border-0 lg:bg-transparent lg:px-3 lg:py-1.5 lg:text-sm lg:text-muted-foreground lg:data-[state=active]:bg-background lg:data-[state=active]:text-foreground lg:data-[state=active]:shadow-sm whitespace-nowrap transition-all duration-200 shadow-none flex items-center justify-center gap-1.5"
+          >
+            <Briefcase className="h-3.5 w-3.5 shrink-0" />
             Projects
-            {!hasFeature('project-chart') && <Lock className="ml-1 h-3 w-3" />}
+            {!hasFeature('project-chart') && <Lock className="h-3 w-3 shrink-0" />}
           </TabsTrigger>
-          <TabsTrigger value="resources" className="shrink-0 md:shrink">Resources</TabsTrigger>
-          <TabsTrigger value="mentorship" disabled={!hasFeature('mentorship')} className="shrink-0 md:shrink">
-            <Users className="mr-2 h-4 w-4" />
+          <TabsTrigger 
+            value="resources" 
+            className="shrink-0 lg:shrink rounded-full border border-zinc-800 bg-zinc-950/30 px-4 py-1.5 text-xs text-zinc-400 data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=active]:border-red-500 lg:rounded-md lg:border-0 lg:bg-transparent lg:px-3 lg:py-1.5 lg:text-sm lg:text-muted-foreground lg:data-[state=active]:bg-background lg:data-[state=active]:text-foreground lg:data-[state=active]:shadow-sm whitespace-nowrap transition-all duration-200 shadow-none"
+          >
+            Resources
+          </TabsTrigger>
+          <TabsTrigger 
+            value="mentorship" 
+            disabled={!hasFeature('mentorship')} 
+            className="shrink-0 lg:shrink rounded-full border border-zinc-800 bg-zinc-950/30 px-4 py-1.5 text-xs text-zinc-400 data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=active]:border-red-500 lg:rounded-md lg:border-0 lg:bg-transparent lg:px-3 lg:py-1.5 lg:text-sm lg:text-muted-foreground lg:data-[state=active]:bg-background lg:data-[state=active]:text-foreground lg:data-[state=active]:shadow-sm whitespace-nowrap transition-all duration-200 shadow-none flex items-center justify-center gap-1.5"
+          >
+            <Users className="h-3.5 w-3.5 shrink-0" />
             Mentorship
-            {!hasFeature('mentorship') && <Lock className="ml-1 h-3 w-3" />}
+            {!hasFeature('mentorship') && <Lock className="h-3 w-3 shrink-0" />}
           </TabsTrigger>
-          <TabsTrigger value="account" className="shrink-0 md:shrink">Account</TabsTrigger>
+          <TabsTrigger 
+            value="account" 
+            className="shrink-0 lg:shrink rounded-full border border-zinc-800 bg-zinc-950/30 px-4 py-1.5 text-xs text-zinc-400 data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=active]:border-red-500 lg:rounded-md lg:border-0 lg:bg-transparent lg:px-3 lg:py-1.5 lg:text-sm lg:text-muted-foreground lg:data-[state=active]:bg-background lg:data-[state=active]:text-foreground lg:data-[state=active]:shadow-sm whitespace-nowrap transition-all duration-200 shadow-none"
+          >
+            Account
+          </TabsTrigger>
         </TabsList>
 
         {/* Overview Tab */}
-        <TabsContent value="overview" className="space-y-8">
+        <TabsContent value="overview" className="space-y-4 lg:space-y-8">
           {/* Progress Section */}
-          <div className="grid gap-6 lg:grid-cols-3">
+          <div className="grid gap-4 lg:gap-6 lg:grid-cols-3">
             {/* Career Progress */}
-            <div className="rounded-2xl border border-border bg-card p-6">
-              <h3 className="text-lg font-semibold text-foreground">Career Progress</h3>
-              <p className="text-sm text-muted-foreground">
+            <div className="rounded-2xl border border-border bg-card p-3 lg:p-6">
+              <h3 className="text-sm lg:text-lg font-semibold text-foreground">Career Progress</h3>
+              <p className="text-[10px] lg:text-sm text-muted-foreground">
                 {profile?.careerGoal || 'Software Engineer'}
               </p>
 
-              <div className="mt-6 flex justify-center">
+              {/* Mobile Progress Ring */}
+              <div className="mt-2.5 flex justify-center lg:hidden">
+                <ProgressRing progress={careerReadiness} size={110} strokeWidth={8}>
+                  <div className="text-center">
+                    <span className="font-bold text-foreground text-lg">
+                      {careerReadiness}%
+                    </span>
+                    <p className="text-[9px] text-muted-foreground">Ready</p>
+                  </div>
+                </ProgressRing>
+              </div>
+
+              {/* Desktop Progress Ring */}
+              <div className="mt-6 hidden lg:flex justify-center">
                 <ProgressRing progress={careerReadiness} size={160} strokeWidth={12}>
                   <div className="text-center">
-                    <span className="text-3xl font-bold text-foreground">
+                    <span className="font-bold text-foreground text-3xl">
                       {careerReadiness}%
                     </span>
                     <p className="text-xs text-muted-foreground">Ready</p>
@@ -253,19 +321,19 @@ export default function Dashboard() {
                 </ProgressRing>
               </div>
 
-              <div className="mt-6 space-y-3">
-                <div className="flex items-center justify-between text-sm">
+              <div className="mt-3 lg:mt-6 space-y-1.5 lg:space-y-3">
+                <div className="flex items-center justify-between text-[10px] lg:text-sm">
                   <span className="text-muted-foreground">Technical Skills</span>
                   <span className="font-medium text-foreground">60%</span>
                 </div>
-                <div className="h-2 overflow-hidden rounded-full bg-secondary">
+                <div className="h-1 lg:h-2 overflow-hidden rounded-full bg-secondary">
                   <div className="h-full w-[60%] rounded-full gradient-primary" />
                 </div>
-                <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center justify-between text-[10px] lg:text-sm">
                   <span className="text-muted-foreground">Soft Skills</span>
                   <span className="font-medium text-foreground">40%</span>
                 </div>
-                <div className="h-2 overflow-hidden rounded-full bg-secondary">
+                <div className="h-1 lg:h-2 overflow-hidden rounded-full bg-secondary">
                   <div className="h-full w-[40%] rounded-full gradient-accent" />
                 </div>
               </div>

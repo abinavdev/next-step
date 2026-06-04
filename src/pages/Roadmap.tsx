@@ -79,7 +79,7 @@ export default function Roadmap() {
         </header>
 
         {/* Main Content */}
-        <main className="flex-1 container mx-auto px-4 py-8">
+        <main className="flex-1 container mx-auto px-0 md:px-4 py-8">
           {hasRoadmap ? (
             <GamifiedRoadmap roadmap={profile.roadmap!} />
           ) : (
